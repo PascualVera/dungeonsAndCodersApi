@@ -3,13 +3,13 @@ const { Router } = require('express');
 const router = Router();
 
 // Importar controladores
-const { getPersonaje, postPersonaje, putPersonaje, deletePersonaje } = require('../controllers/personaje')
+const { getPlayer, postPlayer, putPlayer, deletePlayer } = require('../controllers/player')
 
 // Crear los endpoints para la ruta /profesores y atenderlos mediante sus controladores
-router.get('/', getPersonaje);
-router.post('/', postPersonaje);
-router.put('/', putPersonaje);
-router.delete('/', deletePersonaje);
+router.get('/', getPlayer);
+router.post('/', postPlayer);
+router.put('/', putPlayer);
+router.delete('/', deletePlayer);
 
 // Exportar router
 module.exports = router;

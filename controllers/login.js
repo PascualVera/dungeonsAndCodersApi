@@ -4,7 +4,7 @@ const { dungeonsDB } = require('../bbdd');
 // Controlador endpoint /login
 // POST
 const postLogin = (req, res) => {
-    return res.status(400).send({ ok: true, message: `postLogin works!!` });
+    return res.status(200).send({ ok: true, message: `postLogin works!!` });
 
     // const { correo, password } = req.body;
     // let params = [correo, password];
@@ -20,7 +20,7 @@ const postLogin = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     } else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };

@@ -4,7 +4,7 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /campaign
 // GET
 const getCampaign = (req, res) => {
-    return res.status(400).send({ ok: true, message: `getCampaign works!!` });
+    return res.status(200).send({ ok: true, message: `getCampaign works!!` });
 
     // const { id_usuario, id_libro } = req.query;
     // let params = [id_usuario];
@@ -28,14 +28,14 @@ const getCampaign = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // POST
 const postCampaign = (req, res) => {
-    return res.status(400).send({ ok: true, message: `postCampaign works!!` });
+    return res.status(200).send({ ok: true, message: `postCampaign works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
     // let params = [titulo, tipo, autor, precio, foto, id_usuario];
@@ -46,14 +46,14 @@ const postCampaign = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     } else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })    
 };
 
 // PUT
 const putCampaign = (req, res) => {
-    return res.status(400).send({ ok: true, message: `putCampaign works!!` });
+    return res.status(200).send({ ok: true, message: `putCampaign works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
     // let params = [titulo, tipo, autor, precio, foto, id_libro];
@@ -71,14 +71,14 @@ const putCampaign = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // DELETE
 const deleteCampaign = (req, res) => {
-    return res.status(400).send({ ok: true, message: `deleteCampaign works!!` });
+    return res.status(200).send({ ok: true, message: `deleteCampaign works!!` });
 
     //  let params = [req.body.id_libro];
     //  let sql = "DELETE FROM libro WHERE id_libro = ?";
@@ -93,7 +93,7 @@ const deleteCampaign = (req, res) => {
     //         return res.status(200).json(respuesta);            
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };

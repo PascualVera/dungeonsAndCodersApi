@@ -4,7 +4,7 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /enemigo
 // GET
 const getEnemigo = (req, res) => {
-    return res.status(400).send({ ok: true, message: `getEnemigo works!!` });
+    return res.status(200).send({ ok: true, message: `getEnemigo works!!` });
 
     // const { id_usuario, id_libro } = req.query;
     // let params = [id_usuario];
@@ -28,14 +28,14 @@ const getEnemigo = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // POST
 const postEnemigo = (req, res) => {
-    return res.status(400).send({ ok: true, message: `postEnemigo works!!` });
+    return res.status(200).send({ ok: true, message: `postEnemigo works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
     // let params = [titulo, tipo, autor, precio, foto, id_usuario];
@@ -46,14 +46,14 @@ const postEnemigo = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     } else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })    
 };
 
 // PUT
 const putEnemigo = (req, res) => {
-    return res.status(400).send({ ok: true, message: `putEnemigo works!!` });
+    return res.status(200).send({ ok: true, message: `putEnemigo works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
     // let params = [titulo, tipo, autor, precio, foto, id_libro];
@@ -71,14 +71,14 @@ const putEnemigo = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // DELETE
 const deleteEnemigo = (req, res) => {
-    return res.status(400).send({ ok: true, message: `deleteEnemigo works!!` });
+    return res.status(200).send({ ok: true, message: `deleteEnemigo works!!` });
 
     //  let params = [req.body.id_libro];
     //  let sql = "DELETE FROM libro WHERE id_libro = ?";
@@ -93,7 +93,7 @@ const deleteEnemigo = (req, res) => {
     //         return res.status(200).json(respuesta);            
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };

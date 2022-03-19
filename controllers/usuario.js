@@ -4,7 +4,7 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /usuario
 // GET
 const getUsuario = (req, res) => {
-    return res.status(400).send({ ok: true, message: `getUsuario works!!` });
+    return res.status(200).send({ ok: true, message: `getUsuario works!!` });
 
     // const { id_usuario, id_libro } = req.query;
     // let params = [id_usuario];
@@ -28,33 +28,31 @@ const getUsuario = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // POST
 const postUsuario = (req, res) => {
-    return res.status(400).send({ ok: true, message: `postUsuario works!!` });
-
-    // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
-    // let params = [titulo, tipo, autor, precio, foto, id_usuario];
-    // let sql = 'INSERT INTO libro (titulo, tipo, autor, precio, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?)';
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta = { ok: true, message: `Registrado libro con id ${result.insertId}`, resultado: { id_libro: result.insertId }};
-    //         return res.status(200).json(respuesta);
-    //     } else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
-    //     }
-    // })    
+    const { name, email, password, urlAvatar } = req.body;
+    let params = [name, email, password, urlAvatar];
+    let sql = 'INSERT INTO User (name, email, password, urlAvatar) VALUES (?, ?, ?, ?)';
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta = { ok: true, message: `Agregado usuario con id ${result.insertId}`, resultado: { idUser: result.insertId }};
+            return res.status(200).json(respuesta);
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).json(respuesta);
+        }
+    })    
 };
 
 // PUT
 const putUsuario = (req, res) => {
     
-    return res.status(400).send({ ok: true, message: `putUsuario works!!` });
+    return res.status(200).send({ ok: true, message: `putUsuario works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
     // let params = [titulo, tipo, autor, precio, foto, id_libro];
@@ -72,31 +70,30 @@ const putUsuario = (req, res) => {
     //         return res.status(200).json(respuesta);
     //     }else {
     //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
+    //         return res.status(200).json(respuesta);
     //     }
     // })
 };
 
 // DELETE
 const deleteUsuario = (req, res) => {
-    return res.status(400).send({ ok: true, message: `deleteUsuario works!!` });
 
-    //  let params = [req.body.id_libro];
-    //  let sql = "DELETE FROM libro WHERE id_libro = ?";
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta;
-    //         if (result.affectedRows == 0){
-    //             respuesta = { ok: false, message: `Libro con id ${req.body.id_libro} no encontrado`};
-    //         }else {
-    //             respuesta = { ok: true, message: `Libro con id ${req.body.id_libro} eliminado`};
-    //         }
-    //         return res.status(200).json(respuesta);            
-    //     }else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(400).json(respuesta);
-    //     }
-    // })
+     let params = [req.body.idUser];
+     let sql = "DELETE FROM User WHERE idUser = ?";
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta;
+            if (result.affectedRows == 0){
+                respuesta = { ok: false, message: `Usuario con id ${req.body.idUser} no encontrado`};
+            }else {
+                respuesta = { ok: true, message: `Usuario con id ${req.body.idUser} eliminado`};
+            }
+            return res.status(200).json(respuesta);            
+        }else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(200).json(respuesta);
+        }
+    })
 };
 
 // Exportar controladores
