@@ -4,7 +4,8 @@
   "description": "",
   "main": "api.js",
   "scripts": {
-    "start": "node api.js",
+    "start": "node apiRest.js",
+    "dev": "nodemon apiRest.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
