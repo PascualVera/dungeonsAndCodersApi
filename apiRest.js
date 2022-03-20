@@ -12,6 +12,7 @@ app.use('/campaign', require('./routes/campaign'));
 app.use('/chat', require('./routes/chat'));
 app.use('/player', require('./routes/player'));
 app.use('/enemigo', require('./routes/enemigo'));
+app.use('/sendMail', require('./routes/sendMail'))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'
