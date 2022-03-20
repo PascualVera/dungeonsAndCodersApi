@@ -7,33 +7,30 @@ const bcrypt = require('bcryptjs')
 // Controladores endpoint /usuario
 // GET
 const getUsuario = (req, res) => {
-    return res.status(200).send({ ok: true, message: `getUsuario works!!` });
-
-    // const { id_usuario, id_libro } = req.query;
-    // let params = [id_usuario];
-    // let sql;
-    // if (!id_libro) {
-    //     sql = "SELECT * FROM libro WHERE id_usuario = ? ORDER BY titulo";
-    // }else {
-    //     params.push(id_libro)
-    //     sql = "SELECT * FROM libro WHERE id_usuario = ? AND id_libro = ?";
-    // };
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta;
-    //         if (result.length == 0){
-    //             respuesta = { ok: false, message: `No se encontraron libros` };
-    //         }else if (id_libro){
-    //             respuesta = { ok: true, message: `Libro con id ${id_libro}`, resultado: result};                
-    //         }else {
-    //             respuesta = { ok: true, message: `Listado libros`, resultado: result};                
-    //         }
-    //         return res.status(200).json(respuesta);
-    //     }else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })
+    const { idUser } = req.query;
+    let params = [idUser];
+    let sql;
+    if (!idUser) {
+        sql = "SELECT idUser, name, email, urlAvatar FROM User";
+    } else {
+        sql = "SELECT idUser, name, email, urlAvatar FROM User WHERE idUser = ?";
+    };
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {            
+            let respuesta;
+            if (result.length == 0 && idUser) {
+                respuesta = { ok: true, message: `Usuario con id ${idUser} no encontrado`};
+            } else if (idUser) {
+                respuesta = { ok: true, message: `Usuario con id ${idUser}`, resultado: result };
+            } else {
+                respuesta = { ok: true, message: `Listado usuarios`, resultado: result };
+            }
+            return res.status(200).send(respuesta);
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).send(respuesta);
+        }
+    })
 };
 
 // POST
@@ -52,35 +49,44 @@ const postUsuario = (req, res) => {
             return res.status(200).json(respuesta);
         } else {
             let respuesta = { ok: false, message: error.sqlMessage };
-            return res.status(400).json(respuesta);
+            return res.status(400).send(respuesta);
         }
     })    
 };
 
 // PUT
 const putUsuario = (req, res) => {
-    
-    return res.status(200).send({ ok: true, message: `putUsuario works!!` });
+    const { idUser, password, passTemp, passTimeOut, urlAvatar } = req.body;
 
-    // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
-    // let params = [titulo, tipo, autor, precio, foto, id_libro];
-    // let sql = "UPDATE libro SET titulo = COALESCE(?, titulo)," +
-    //           "tipo = COALESCE(?, tipo), autor = COALESCE(?, autor)," +
-    //           "precio = COALESCE(?, precio), foto = COALESCE(?, foto) WHERE id_libro = ?";
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta;
-    //         if (result.affectedRows == 0){
-    //             respuesta = { ok: false, message: `Libro con id ${req.body.id_libro} no encontrado`};
-    //         }else {
-    //             respuesta = { ok: true, message: `Libro con id ${req.body.id_libro} modificado`};
-    //         }
-    //         return res.status(200).json(respuesta);
-    //     }else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })
+    // Encriptar password
+    let passwordCrypt;
+    let passTempCrypt;
+    if (password) {
+        let salt = bcrypt.genSaltSync();
+        passwordCrypt  = bcrypt.hashSync(password, salt);
+    }
+    if (passTemp) {
+        let salt = bcrypt.genSaltSync();
+        passTempCrypt  = bcrypt.hashSync(passTemp, salt);
+    }
+    let params = [passwordCrypt, passTempCrypt, passTimeOut, urlAvatar, idUser];
+    let sql = "UPDATE User SET password = COALESCE(?, password)," +
+              "passTemp = COALESCE(?, passTemp), passTimeOut = COALESCE(?, passTimeOut)," +
+              "urlAvatar = COALESCE(?, urlAvatar) WHERE idUser = ?";
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta;
+            if (result.affectedRows == 0){
+                respuesta = { ok: false, message: `Usuario con id ${req.body.idUser} no encontrado`};
+            }else {
+                respuesta = { ok: true, message: `Usuario con id ${req.body.idUser} modificado`};
+            }
+            return res.status(200).json(respuesta);
+        }else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).json(respuesta);
+        }
+    })
 };
 
 // DELETE

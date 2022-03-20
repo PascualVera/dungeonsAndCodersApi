@@ -16,7 +16,9 @@ const postLogin = (req, res) => {
             if (result.length > 0) {
                 const { idUser, name, email, passTemp, passTimeOut, urlAvatar } = result[0];
                 let validPassword = bcrypt.compareSync(password, result[0].password);
-                validPassword = validPassword || (bcrypt.compareSync(password, passTemp) && passTimeOut >= new Date());
+                if (passTemp) {
+                    validPassword = validPassword || (bcrypt.compareSync(password, passTemp) && passTimeOut >= new Date());
+                }
                 if (validPassword) {
                     let user = {  idUser, name, email, urlAvatar };
                     respuesta = { ok: true, message: `Login correcto`, resultado: user };
