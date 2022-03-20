@@ -19,7 +19,7 @@ const getUsuario = (req, res) => {
         if (!error) {            
             let respuesta;
             if (result.length == 0 && idUser) {
-                respuesta = { ok: true, message: `Usuario con id ${idUser} no encontrado`};
+                respuesta = { ok: false, message: `Usuario con id ${idUser} no encontrado`};
             } else if (idUser) {
                 respuesta = { ok: true, message: `Usuario con id ${idUser}`, resultado: result };
             } else {
