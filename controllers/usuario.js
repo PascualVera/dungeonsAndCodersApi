@@ -1,6 +1,9 @@
 // Conexión codenotchBBDD
 const { dungeonsDB } = require('../bbdd');
 
+// Módulo de encriptación
+const bcrypt = require('bcryptjs')
+
 // Controladores endpoint /usuario
 // GET
 const getUsuario = (req, res) => {
@@ -36,7 +39,12 @@ const getUsuario = (req, res) => {
 // POST
 const postUsuario = (req, res) => {
     const { name, email, password, urlAvatar } = req.body;
-    let params = [name, email, password, urlAvatar];
+
+    // Encriptar password
+    const salt = bcrypt.genSaltSync();
+    const passwordCrypt  = bcrypt.hashSync(password, salt);
+
+    let params = [name, email, passwordCrypt, urlAvatar];
     let sql = 'INSERT INTO User (name, email, password, urlAvatar) VALUES (?, ?, ?, ?)';
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
