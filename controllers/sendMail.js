@@ -22,8 +22,14 @@ const nodemailer = require('nodemailer')
     from: 'dungeonsandcoders@gmail.com',
     to: req.body.email,
     subject:'Contraseña temporal',
-    html: `Este es tu pin de acceso temporal: ${temporaryPin}, la validez de esta contraseña
-    expirará en 24 horas, cambia tu contraseña en tu area personal usando este mismo pin.
+    html:`<body style="width: 100%; background:#a34c50; color: white ">
+    <header style= "height:5vh; width:100%; background:#264c5e ;"><h1 style="color:white; margin: 1vw">Dungeons & Coders Team</h1></header>
+    <h2 style="color: white; margin:1vw" >Este es tu pin de acceso temporal:</h2>
+    <h1 style="margin:1vw; font-size: 3rem">${temporaryPin}</h1> 
+    <div style="margin:1vw; font-size: 1rem">La validez de esta contraseña
+    expirará en 24 horas, cambia la contraseña en tu area personal usando este mismo pin.
+    </div>
+    </body>
     `
   }
    transporter.sendMail(mailOptions,(err,info)=>{
