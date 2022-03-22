@@ -9,6 +9,7 @@ require('./bbdd');
 app.use('/login', require('./routes/login'));
 app.use('/usuario', require('./routes/usuario'));
 app.use('/campaign', require('./routes/campaign'));
+app.use('/campaignPre', require('./routes/campaignPre'));
 app.use('/chat', require('./routes/chat'));
 app.use('/player', require('./routes/player'));
 app.use('/enemigo', require('./routes/enemigo'));
