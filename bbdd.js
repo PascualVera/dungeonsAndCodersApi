@@ -6,7 +6,7 @@ const cadenaConexion = {
     host: "dungeons.crskj102zhdh.us-east-1.rds.amazonaws.com",
 	user: "admin",
 	password: "Dungeons994",
-	database: "dungeonsDB",
+	database: "dungeonsdb2",
 }
 
 // Crear Conexión y conectar con BBDD dungeonsDB mysql AWS
