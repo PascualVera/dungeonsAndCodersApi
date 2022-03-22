@@ -7,8 +7,7 @@ const getCampaign = (req, res) => {
     // return res.status(200).send({ ok: true, message: `getCampaign works!!` });
 
     let sql = `SELECT u.name, cp.campaignName FROM campaign AS c INNER JOIN user AS u ON (c.idMaster = u.idUser) 
-    INNER JOIN campaignselected AS cs ON (c.idCampaignSelect = cs.idCampaignSelected) 
-    INNER JOIN campaignPre AS cp ON (cs.idCampaignPre = cp.idCampaignPre) ORDER BY c.date LIMIT 5`
+    INNER JOIN campaignpre AS cp ON( c.idCampaignPre = cp.idCampaignPre) ORDER BY c.date LIMIT 5`
     dungeonsDB.query(sql, (error, result) => {
         if(!error){
             let respuesta = {ok: true, message: `Las 5 ultimas partidas` , resultado: result};
