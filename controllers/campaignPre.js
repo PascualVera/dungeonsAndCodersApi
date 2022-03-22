@@ -3,17 +3,29 @@ const { dungeonsDB } = require('../bbdd');
 
 // Controladores endpoint /campaign
 // GET
-const getCampaign = (req, res) => {
+const getCampaignPre = (req, res) => {
     // return res.status(200).send({ ok: true, message: `getCampaign works!!` });
 
-    let sql = `SELECT u.name, cp.campaignName FROM campaign AS c INNER JOIN user AS u ON (c.idMaster = u.idUser) 
-    INNER JOIN campaignselected AS cs ON (c.idCampaignSelect = cs.idCampaignSelected) 
-    INNER JOIN campaignPre AS cp ON (cs.idCampaignPre = cp.idCampaignPre) ORDER BY c.date LIMIT 5`
-    dungeonsDB.query(sql, (error, result) => {
-        if(!error){
-            let respuesta = {ok: true, message: `Las 5 ultimas partidas` , resultado: result};
+    const { id_campaign } = req.query;
+    let params = [id_campaign];
+    let sql;
+    if (!id_campaign) {
+        sql = "SELECT campaignName FROM campaignPre";
+    }else {
+        sql = "SELECT synopsis FROM campaignPre WHERE idCampaignPre = ?";
+    };
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta;
+            if (result.length == 0){
+                respuesta = { ok: false, message: `Campaña no encontrada` };
+            }else if (id_campaign){
+                respuesta = { ok: true, message: `El resumend de la campaña con id ${id_campaign}`, resultado: result};                
+            }else {
+                respuesta = { ok: true, message: `Listado de campañas`, resultado: result};                
+            }
             return res.status(200).json(respuesta);
-        }else{
+        }else {
             let respuesta = { ok: false, message: error.sqlMessage };
             return res.status(200).json(respuesta);
         }
@@ -21,7 +33,7 @@ const getCampaign = (req, res) => {
 };
 
 // POST
-const postCampaign = (req, res) => {
+const postCampaignPre = (req, res) => {
     return res.status(200).send({ ok: true, message: `postCampaign works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
@@ -39,7 +51,7 @@ const postCampaign = (req, res) => {
 };
 
 // PUT
-const putCampaign = (req, res) => {
+const putCampaignPre = (req, res) => {
     return res.status(200).send({ ok: true, message: `putCampaign works!!` });
 
     // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
@@ -64,7 +76,7 @@ const putCampaign = (req, res) => {
 };
 
 // DELETE
-const deleteCampaign = (req, res) => {
+const deleteCampaignPre = (req, res) => {
     return res.status(200).send({ ok: true, message: `deleteCampaign works!!` });
 
     //  let params = [req.body.id_libro];
@@ -87,8 +99,8 @@ const deleteCampaign = (req, res) => {
 
 // Exportar controladores
 module.exports = {
-    getCampaign,
-    postCampaign,
-    putCampaign,
-    deleteCampaign
+    getCampaignPre,
+    postCampaignPre,
+    putCampaignPre,
+    deleteCampaignPre
 }
