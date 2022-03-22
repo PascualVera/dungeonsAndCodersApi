@@ -11,9 +11,9 @@ const getUsuario = (req, res) => {
     let params = [idUser];
     let sql;
     if (!idUser) {
-        sql = "SELECT idUser, name, email, urlAvatar FROM User";
+        sql = "SELECT idUser, name, email, urlAvatar FROM user";
     } else {
-        sql = "SELECT idUser, name, email, urlAvatar FROM User WHERE idUser = ?";
+        sql = "SELECT idUser, name, email, urlAvatar FROM user WHERE idUser = ?";
     };
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {            
@@ -42,7 +42,7 @@ const postUsuario = (req, res) => {
     const passwordCrypt  = bcrypt.hashSync(password, salt);
 
     let params = [name, email, passwordCrypt, urlAvatar];
-    let sql = 'INSERT INTO User (name, email, password, urlAvatar) VALUES (?, ?, ?, ?)';
+    let sql = 'INSERT INTO user (name, email, password, urlAvatar) VALUES (?, ?, ?, ?)';
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
             let respuesta = { ok: true, message: `Agregado usuario con id ${result.insertId}`, resultado: { idUser: result.insertId }};
@@ -70,7 +70,7 @@ const putUsuario = (req, res) => {
         passTempCrypt  = bcrypt.hashSync(passTemp, salt);
     }
     let params = [passwordCrypt, passTempCrypt, passTimeOut, urlAvatar, idUser];
-    let sql = "UPDATE User SET password = COALESCE(?, password)," +
+    let sql = "UPDATE user SET password = COALESCE(?, password)," +
               "passTemp = COALESCE(?, passTemp), passTimeOut = COALESCE(?, passTimeOut)," +
               "urlAvatar = COALESCE(?, urlAvatar) WHERE idUser = ?";
     dungeonsDB.query(sql, params, (error, result) => {
@@ -93,7 +93,7 @@ const putUsuario = (req, res) => {
 const deleteUsuario = (req, res) => {
 
      let params = [req.body.idUser];
-     let sql = "DELETE FROM User WHERE idUser = ?";
+     let sql = "DELETE FROM user WHERE idUser = ?";
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
             let respuesta;

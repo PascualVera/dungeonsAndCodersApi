@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const postLogin = (req, res) => {
     const { nameEmail, password } = req.body;    
     let params = [nameEmail, nameEmail];
-    let sql = 'SELECT * FROM User WHERE (name = ? || email = ?)';
+    let sql = 'SELECT * FROM user WHERE (name = ? || email = ?)';
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
             let respuesta = { ok: false, message: `Usuario o contraseña incorrectos` };                
