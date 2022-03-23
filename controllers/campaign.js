@@ -4,19 +4,26 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /campaign
 // GET
 const getCampaign = (req, res) => {
-    // return res.status(200).send({ ok: true, message: `getCampaign works!!` });
+    
+    // idUser para el perfil
+    const { idCampaign, idUser} = req.query;
 
-    let sql = `SELECT u.name, cp.campaignName FROM campaign AS c INNER JOIN user AS u ON (c.idMaster = u.idUser) 
-    INNER JOIN campaignpre AS cp ON( c.idCampaignPre = cp.idCampaignPre) ORDER BY c.date LIMIT 5`
-    dungeonsDB.query(sql, (error, result) => {
-        if(!error){
-            let respuesta = {ok: true, message: `Las 5 ultimas partidas` , resultado: result};
-            return res.status(200).json(respuesta);
-        }else{
-            let respuesta = { ok: false, message: error.sqlMessage };
-            return res.status(200).json(respuesta);
-        }
-    })
+    if (!idCampaign && !idUser) {
+        let sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.numPlayer, campaign.public, campaignpre.campaignName AS campaignNamePre, campaignpre.playerMin, campaignpre.playerMax FROM campaign JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.numPlayer < campaignpre.PlayerMax AND NOT campaign.closed"
+        dungeonsDB.query(sql, (error, result) => {
+            if(!error){
+                let respuesta = {ok: true, message: 'Campañas disponibles' , resultado: result};
+                return res.status(200).send(respuesta);
+            }else{
+                let respuesta = { ok: false, message: error.sqlMessage };
+                return res.status(400).send(respuesta);
+            }
+        })
+    } else {
+        // Aquí el get de campaña completo por idCampaign del query (con id)
+        let respuesta = {ok: true, message: 'Pendiente: Datos completos de campaña'};
+        return res.status(200).send(respuesta);
+    }
 };
 
 // POST
