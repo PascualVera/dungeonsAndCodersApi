@@ -4,26 +4,33 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /campaign
 // GET
 const getCampaign = (req, res) => {
-    
-    // idUser para el perfil
-    const { idCampaign, idUser} = req.query;
 
-    if (!idCampaign && !idUser) {
-        let sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.numPlayer, campaign.public, campaignpre.campaignName AS campaignNamePre, campaignpre.playerMin, campaignpre.playerMax FROM campaign JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.numPlayer < campaignpre.PlayerMax AND NOT campaign.closed"
-        dungeonsDB.query(sql, (error, result) => {
-            if(!error){
-                let respuesta = {ok: true, message: 'Campañas disponibles' , resultado: result};
-                return res.status(200).send(respuesta);
-            }else{
-                let respuesta = { ok: false, message: error.sqlMessage };
-                return res.status(400).send(respuesta);
-            }
-        })
+    // idUser para el perfil
+    const { idCampaign, idUser } = req.query;
+    let params = [idCampaign];
+    let sql;
+
+    if (!idCampaign) {
+        sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.numPlayer, campaign.maxPlayer, campaign.public, campaignpre.campaignName AS campaignNamePre, campaignpre.playerMin, campaignpre.playerMax FROM campaign JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.numPlayer < campaign.maxPlayer AND NOT campaign.closed"
     } else {
-        // Aquí el get de campaña completo por idCampaign del query (con id)
-        let respuesta = {ok: true, message: 'Pendiente: Datos completos de campaña'};
-        return res.status(200).send(respuesta);
-    }
+        sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.idCampaignPre, campaign.date, campaign.numPlayer, campaign.maxPlayer, campaign.public,campaign.closed, user.name FROM campaign JOIN user ON campaign.idMaster = user.idUser WHERE campaign.idCampaign = ?"
+    };
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta;
+            if (result.length == 0 && idCampaign) {
+                respuesta = { ok: false, message: `Campaña con id ${idCampaign} no encontrado`};
+            } else if (idCampaign) {
+                respuesta = { ok: true, message: `Campaña con id ${idCampaign}`, resultado: result };
+            } else {
+                respuesta = { ok: true, message: 'Campañas disponibles', resultado: result };
+            }
+            return res.status(200).send(respuesta);
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).send(respuesta);
+        }
+    })
 };
 
 // POST

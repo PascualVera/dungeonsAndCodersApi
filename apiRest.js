@@ -18,6 +18,7 @@ app.use("/homepage", require("./routes/homepage"))
 app.use("/character", require("./routes/character"))
 app.use("/spell",require("./routes/spell"))
 app.use("/vistaMaster", require("./routes/vistaMaster"))
+app.use("/equip",require('./routes/equip'))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'
