@@ -16,6 +16,7 @@ app.use("/enemigo", require("./routes/enemigo"))
 app.use("/sendMail", require("./routes/sendMail"))
 app.use("/homepage", require("./routes/homepage"))
 app.use("/character", require("./routes/character"))
+app.use("/spell",require("./routes/spell"))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'
