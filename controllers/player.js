@@ -4,21 +4,27 @@ const { dungeonsDB } = require("../bbdd")
 // Controladores endpoint /personaje
 // GET
 const getPlayer = (req, res) => {
-	let sql = "SELECT * FROM player"
+	let id = req.query.id
+
+	let sql = `SELECT user.name, campaign.campaignName FROM player
+	JOIN user ON (player.idUser = user.idUser)
+	JOIN campaign ON (player.idCampaign = campaign.idCampaign)
+	WHERE campaign.idCampaign = '${id}'`
 	dungeonsDB.query(sql, (err, result) => {
 		if (err) {
-			console.log(err)
-			res.send(err)
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
 		} else {
-			res.send(result)
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
 		}
 	})
 }
 
 // POST
 const postPlayer = (req, res) => {
-	const { hitpoints, idCharacter, idUser, idCampaign } = req.body
-	let params = [hitpoints, idCharacter, idUser, idCampaign]
+	const { hitPoints, idCharacter, idUser, idCampaign } = req.body
+	let params = [hitPoints, idCharacter, idUser, idCampaign]
 	let sql = "INSERT INTO player (hitpoints , idCharacter, idUser, idCampaign) VALUES( ?, ?, ?, ?)"
 
 	dungeonsDB.query(sql, params, (err, result) => {

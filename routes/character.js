@@ -5,4 +5,5 @@ const router = Router()
 const { getCharacter } = require("../controllers/character")
 router.get("/", getCharacter)
 
+
 module.exports = router
