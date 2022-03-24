@@ -26,6 +26,7 @@ const getEnemyCampaign = (req, res) =>{
     }
 }
 
+
 // Exportar controladores
 module.exports = {
     getEnemyCampaign

@@ -22,4 +22,24 @@ const getEquip = (req, res) => {
    })
 };
 
-module.exports = {getEquip}
+const getEquipEnemy = (req, res) => {
+
+  let id = req.query.id
+  let sql = `SELECT weapon.nameEquip, weapon.bonusEquip, weapon.damageType,
+  weapon.anotacion FROM dungeonsdb2.enemypre
+  JOIN weapon_enemypre ON (enemypre.idEnemyPre = weapon_enemypre.idEnemyPre)
+  JOIN weapon ON (weapon.idEquip = weapon_enemypre.idWeapon)
+  WHERE enemypre.idEnemyPre = ${id}`
+
+ dungeonsDB.query(sql,(err,result)=>{
+   if(err){
+    let respuesta = { ok: false, message: err.sqlMessage };
+          return res.status(400).json(respuesta);
+   }else{
+     let respuesta = {ok:true, resultado:result}
+     return res.status(200).json(respuesta)
+   }
+ })
+};
+
+module.exports = {getEquip, getEquipEnemy}
