@@ -7,7 +7,7 @@ const getSpell = (req, res) => {
   const idCharacter = req.query.idCharacter
   let params = [idCharacter]
 
-  let sql = `SELECT characterpre.idCharacter, name, spell.spellName, spell.description, spell.duration, spell.reach FROM dungeonsdb2.characterpre
+  let sql = `SELECT characterpre.idCharacter, spell.spellName, spell.description, spell.duration, spell.reach FROM dungeonsdb2.characterpre
   JOIN spell_character ON (characterpre.idCharacter = spell_character.idCharacter)
   JOIN spell ON (spell.idSpell = spell_character.idSpell)
   WHERE characterpre.idCharacter = ${idCharacter}`
