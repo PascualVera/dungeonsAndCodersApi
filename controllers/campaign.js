@@ -53,27 +53,24 @@ const postCampaign = (req, res) => {
 
 // PUT
 const putCampaign = (req, res) => {
-    return res.status(200).send({ ok: true, message: `putCampaign works!!` });
 
-    // const { titulo, tipo, autor, precio, foto, id_libro } = req.body;
-    // let params = [titulo, tipo, autor, precio, foto, id_libro];
-    // let sql = "UPDATE libro SET titulo = COALESCE(?, titulo)," +
-    //           "tipo = COALESCE(?, tipo), autor = COALESCE(?, autor)," +
-    //           "precio = COALESCE(?, precio), foto = COALESCE(?, foto) WHERE id_libro = ?";
-    // dungeonsDB.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta;
-    //         if (result.affectedRows == 0){
-    //             respuesta = { ok: false, message: `Libro con id ${req.body.id_libro} no encontrado`};
-    //         }else {
-    //             respuesta = { ok: true, message: `Libro con id ${req.body.id_libro} modificado`};
-    //         }
-    //         return res.status(200).json(respuesta);
-    //     }else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })
+    const { numPlayer, closed, idCampaign } = req.body;
+    let params = [numPlayer, closed, idCampaign];
+    let sql = "UPDATE campaign SET numPlayer = COALESCE(?, numPlayer), closed = COALESCE(?, closed) WHERE idCampaign = ?";
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta;
+            if (result.affectedRows == 0){
+                respuesta = { ok: false, message: `Campaña con id ${req.body.idCampaign} no encontrado`};
+            }else {
+                respuesta = { ok: true, message: `Campaña con id ${req.body.idCampaign} modificado`};
+            }
+            return res.status(200).json(respuesta);
+        }else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).json(respuesta);
+        }
+    })
 };
 
 // DELETE
