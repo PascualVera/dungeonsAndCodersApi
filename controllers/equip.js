@@ -5,7 +5,7 @@ const { dungeonsDB } = require('../bbdd');
 const getEquip = (req, res) => {
 
     let id = req.query.idCharacter
-    let sql = `SELECT characterpre.idCharacter, name, weapon.nameEquip, weapon.bonusEquip, weapon.damageType,
+    let sql = `SELECT weapon.nameEquip, weapon.bonusEquip, weapon.damageType,
     weapon.anotacion FROM dungeonsdb2.characterpre
     JOIN weapon_character ON (characterpre.idCharacter = weapon_character.idCharacter)
     JOIN weapon ON (weapon.idEquip = weapon_character.idWeapon)
