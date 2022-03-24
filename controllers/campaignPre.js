@@ -4,23 +4,21 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /campaign
 // GET
 const getCampaignPre = (req, res) => {
-    // return res.status(200).send({ ok: true, message: `getCampaign works!!` });
-
-    const { id_campaign } = req.query;
-    let params = [id_campaign];
+    const { idCampaignPre } = req.query;
+    let params = [idCampaignPre];
     let sql;
-    if (!id_campaign) {
-        sql = "SELECT campaignName FROM campaignPre";
+    if (!idCampaignPre) {
+        sql = "SELECT idCampaignPre, campaignName, synopsis, playerMin, playerMax FROM campaignpre";
     }else {
-        sql = "SELECT synopsis FROM campaignPre WHERE idCampaignPre = ?";
+        sql = "SELECT synopsis FROM campaignPre WHERE idCampaignpre = ?";
     };
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
             let respuesta;
             if (result.length == 0){
                 respuesta = { ok: false, message: `Campaña no encontrada` };
-            }else if (id_campaign){
-                respuesta = { ok: true, message: `El resumend de la campaña con id ${id_campaign}`, resultado: result};                
+            }else if (idCampaignPre){
+                respuesta = { ok: true, message: `El resumend de la campaña con id ${idCampaignPre}`, resultado: result};                
             }else {
                 respuesta = { ok: true, message: `Listado de campañas`, resultado: result};                
             }
