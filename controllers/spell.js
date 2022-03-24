@@ -23,4 +23,25 @@ const getSpell = (req, res) => {
     }
   })
 };
-module.exports = {getSpell}
+
+const getSpellEnemy = (req, res) => {
+  const idEnemyPre = req.query.id
+  let params = [idEnemyPre]
+
+  let sql = `SELECT spell.spellName, spell.description, spell.duration, spell.reach FROM dungeonsdb2.enemypre
+  JOIN spell_enemypre ON (enemypre.idEnemyPre = spell_enemypre.idEnemyPre)
+  JOIN spell ON (spell.idSpell = spell_enemypre.idSpell)
+  WHERE enemypre.idEnemyPre = ?`
+
+
+  dungeonsDB.query(sql, params, (err, result)=>{
+    if(err){
+      let respuesta = { ok: false, message: err.sqlMessage };
+      return res.status(400).json(respuesta);
+    }else{
+      let respuesta = {ok:true, resultado:result}
+      return res.status(200).json(respuesta)
+    }
+  })
+};
+module.exports = {getSpell, getSpellEnemy}
