@@ -5,8 +5,8 @@ const { dungeonsDB } = require('../bbdd');
 // GET
 const getCampaign = (req, res) => {
 
-    // idUser para el perfil
-    const { idCampaign, idUser } = req.query;
+    // idMaster para el perfil
+    const { idCampaign, idMaster } = req.query;
     let params = [idCampaign];
     let sql;
 
@@ -19,7 +19,7 @@ const getCampaign = (req, res) => {
         if (!error) {
             let respuesta;
             if (result.length == 0 && idCampaign) {
-                respuesta = { ok: false, message: `Campaña con id ${idCampaign} no encontrado`};
+                respuesta = { ok: false, message: `Campaña con id ${idCampaign} no encontrado` };
             } else if (idCampaign) {
                 respuesta = { ok: true, message: `Campaña con id ${idCampaign}`, resultado: result };
             } else {
@@ -35,20 +35,45 @@ const getCampaign = (req, res) => {
 
 // POST
 const postCampaign = (req, res) => {
-    return res.status(200).send({ ok: true, message: `postCampaign works!!` });
 
-    // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
-    // let params = [titulo, tipo, autor, precio, foto, id_usuario];
-    // let sql = 'INSERT INTO libro (titulo, tipo, autor, precio, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?)';
-    // dungeonsDB.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta = { ok: true, message: `Registrado libro con id ${result.insertId}`, resultado: { id_libro: result.insertId }};
-    //         return res.status(200).json(respuesta);
-    //     } else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })    
+    const { idCampaign, campaignName, idCampaignPre, idMaster, date, numPlayer, maxPlayer, public, closed } = req.body;
+    let params = [idCampaign, campaignName, idCampaignPre, idMaster, date, numPlayer, maxPlayer, public, closed];
+    let sql = 'INSERT INTO campaign (idCampaign, campaignName, idCampaignPre, idMaster, date, numPlayer, maxPlayer, public, closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let resultados = [result];
+            params = [idCampaignPre];
+            sql = 'SELECT enemypre_campaignpre.idCampaignPre, enemypre_campaignpre.idEnemyPre, enemypre_campaignpre.cantidad, enemypre.hitPoint FROM enemypre_campaignpre JOIN enemypre ON enemypre_campaignpre.idEnemyPre = enemypre.idEnemyPre WHERE enemypre_campaignpre.idCampaignPre = ?';
+            dungeonsDB.query(sql, params, (error, result) => {
+                if (!error) {
+                    resultados.push(result);
+                    params = [];
+                    result.forEach((enemigo) => {
+                        for (let i = 0; i < enemigo.cantidad; i++) {
+                            params.push([idCampaign, enemigo.idEnemyPre, enemigo.hitPoint])
+                        }
+                    })
+                    sql = "INSERT INTO enemy (idCampaign, idEnemyCampaignPre, hitPoints) VALUES ?"
+                    dungeonsDB.query(sql, [params], (error, result) => {
+                        if (!error) {
+                            resultados.push(result);
+                            let respuesta = { ok: true, message: 'Array de resultados', resultado: resultados };
+                            return res.status(200).send(respuesta);
+                        } else {
+                            let respuesta = { ok: false, message: error.sqlMessage };
+                            return res.status(400).send(respuesta);
+                        }
+                    });
+                } else {
+                    let respuesta = { ok: false, message: error.sqlMessage };
+                    return res.status(400).send(respuesta);
+                }
+            })
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).send(respuesta);
+        }
+    })
 };
 
 // PUT
@@ -60,15 +85,15 @@ const putCampaign = (req, res) => {
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
             let respuesta;
-            if (result.affectedRows == 0){
-                respuesta = { ok: false, message: `Campaña con id ${req.body.idCampaign} no encontrado`};
-            }else {
-                respuesta = { ok: true, message: `Campaña con id ${req.body.idCampaign} modificado`};
+            if (result.affectedRows == 0) {
+                respuesta = { ok: false, message: `Campaña con id ${req.body.idCampaign} no encontrado` };
+            } else {
+                respuesta = { ok: true, message: `Campaña con id ${req.body.idCampaign} modificado` };
             }
-            return res.status(200).json(respuesta);
-        }else {
+            return res.status(200).send(respuesta);
+        } else {
             let respuesta = { ok: false, message: error.sqlMessage };
-            return res.status(400).json(respuesta);
+            return res.status(400).send(respuesta);
         }
     })
 };
