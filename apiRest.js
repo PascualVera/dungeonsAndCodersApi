@@ -20,6 +20,7 @@ app.use("/characterInGame", require("./routes/character.filter"))
 app.use("/spell",require("./routes/spell"))
 app.use("/vistaMaster", require("./routes/vistaMaster"))
 app.use("/equip",require('./routes/equip'))
+app.use('/getMaster',require('./routes/getMaster'))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'
