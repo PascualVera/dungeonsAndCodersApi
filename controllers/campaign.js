@@ -53,7 +53,7 @@ const postCampaign = (req, res) => {
                             params.push([idCampaign, enemigo.idEnemyPre, enemigo.hitPoint])
                         }
                     })
-                    sql = "INSERT INTO enemy (idCampaign, idEnemyCampaignPre, hitPoints) VALUES ?"
+                    sql = "INSERT INTO enemy (idCampaign, idEnemyPre, hitPoints) VALUES ?"
                     dungeonsDB.query(sql, [params], (error, result) => {
                         if (!error) {
                             resultados.push(result);
