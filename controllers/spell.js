@@ -28,9 +28,9 @@ const getSpellEnemy = (req, res) => {
   const idEnemyPre = req.query.id
   let params = [idEnemyPre]
 
-  let sql = `SELECT spell.spellName, spell.description, spell.duration, spell.reach FROM dungeonsdb2.enemypre
-  JOIN spell_enemypre ON (enemypre.idEnemyPre = spell_enemypre.idEnemyPre)
-  JOIN spell ON (spell.idSpell = spell_enemypre.idSpell)
+  let sql = `SELECT spell.spellName, spell.description, spell.duration, spell.reach FROM dungeonsdb2.spell
+  JOIN spell_enemypre ON ( spell.idSpell = spell_enemypre.idSpell)
+  JOIN enemypre ON (enemypre.idEnemyPre = spell_enemypre.idEnemyPre)
   WHERE enemypre.idEnemyPre = ?`
 
 

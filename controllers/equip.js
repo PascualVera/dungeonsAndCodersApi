@@ -26,9 +26,9 @@ const getEquipEnemy = (req, res) => {
 
   let id = req.query.id
   let sql = `SELECT weapon.nameEquip, weapon.bonusEquip, weapon.damageType,
-  weapon.anotacion FROM dungeonsdb2.enemypre
-  JOIN weapon_enemypre ON (enemypre.idEnemyPre = weapon_enemypre.idEnemyPre)
-  JOIN weapon ON (weapon.idEquip = weapon_enemypre.idWeapon)
+  weapon.anotacion FROM dungeonsdb2.weapon
+  JOIN weapon_enemypre ON (weapon.idEquip = weapon_enemypre.idWeapon)
+  JOIN enemypre ON (enemypre.idEnemyPre = weapon_enemypre.idEnemyPre)
   WHERE enemypre.idEnemyPre = ${id}`
 
  dungeonsDB.query(sql,(err,result)=>{
