@@ -2,7 +2,7 @@ const { dungeonsDB } = require('../bbdd');
 
 const getPlayerProfile = (req,res)=>{
   let id = req.query.id
-  let sql =`SELECT user.name, campaign.* FROM player
+  let sql =`SELECT campaign.* FROM player
   JOIN user ON (user.idUser = player.idUser)
   JOIN campaign ON(campaign.idCampaign = player.idCampaign)
   WHERE user.idUser ='${id}'` 
