@@ -21,6 +21,7 @@ app.use("/spell",require("./routes/spell"))
 app.use("/vistaMaster", require("./routes/vistaMaster"))
 app.use("/equip",require('./routes/equip'))
 app.use('/getMaster',require('./routes/getMaster'))
+app.use('/getPlayer',require('./routes/getCampaignPlayer'))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'
