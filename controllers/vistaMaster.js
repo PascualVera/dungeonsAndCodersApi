@@ -38,10 +38,25 @@ const getEnemyHitPoints = (req, res) => {
 	})
 }
 
+const getGuiaMaster = (req, res) =>{
+	let id = req.query.id;
+
+	let sql= `SELECT campaignpre.campaignName, campaignpre.routeMasterManual FROM campaignpre JOIN campaign ON campaignpre.idCampaignPre = campaign.idCampaignPre WHERE campaign.idCampaign = '${id}'`
+	dungeonsDB.query(sql, (err, result) => {
+		if (err) {
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
+		} else {
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
+		}
+	})
+}
 
 // Exportar controladores
 
 module.exports={
     getPlayerHitPoints,
-    getEnemyHitPoints
+    getEnemyHitPoints,
+	getGuiaMaster
 }
