@@ -65,24 +65,23 @@ const putPlayer = (req, res) => {
 
 // DELETE
 const deletePlayer = (req, res) => {
-	return res.status(200).send({ ok: true, message: `deletePlayer works!!` })
-
-	// let params = [req.body.id_libro];
-	// let sql = "DELETE FROM libro WHERE id_libro = ?";
-	// appbooksBBDD.query(sql, params, (error, result) => {
-	//     if (!error) {
-	//         let respuesta;
-	//         if (result.affectedRows == 0){
-	//             respuesta = { ok: false, message: `Libro con id ${req.body.id_libro} no encontrado`};
-	//         }else {
-	//             respuesta = { ok: true, message: `Libro con id ${req.body.id_libro} eliminado`};
-	//         }
-	//         return res.status(200).json(respuesta);
-	//     }else {
-	//         let respuesta = { ok: false, message: error.sqlMessage };
-	//         return res.status(200).json(respuesta);
-	//     }
-	// })
+	const { idUser, idCampaign } = req.body
+	let params = [idUser, idCampaign];
+	let sql = "DELETE FROM player WHERE idUser = ? && idCampaign = ?";
+	dungeonsDB.query(sql, params, (error, result) => {
+	    if (!error) {
+	        let respuesta;
+	        if (result.affectedRows == 0){
+	            respuesta = { ok: false, message: `No hay coincidencias para player ${idUser} y campaña ${idCampaign}`};
+	        }else {
+	            respuesta = { ok: true, message: `Player con id ${idUser} eliminado de la campaña con id ${idCampaign}`};
+	        }
+	        return res.status(200).send(respuesta);
+	    }else {
+	        let respuesta = { ok: false, message: error.sqlMessage };
+	        return res.status(400).send(respuesta);
+	    }
+	})
 }
 
 // Exportar controladores
