@@ -11,6 +11,7 @@ app.use("/usuario", require("./routes/usuario"))
 app.use("/campaign", require("./routes/campaign"))
 app.use("/campaignPre", require("./routes/campaignPre"))
 app.use("/chat", require("./routes/chat"))
+app.use("/map", require("./routes/map"))
 app.use("/player", require("./routes/player"))
 app.use("/enemigo", require("./routes/enemigo"))
 app.use("/sendMail", require("./routes/sendMail"))
@@ -20,6 +21,8 @@ app.use("/characterInGame", require("./routes/character.filter"))
 app.use("/spell",require("./routes/spell"))
 app.use("/vistaMaster", require("./routes/vistaMaster"))
 app.use("/equip",require('./routes/equip'))
+app.use('/getMaster',require('./routes/getMaster'))
+app.use('/getPlayer',require('./routes/getCampaignPlayer'))
 // ************************************************************************
 
 // Respuesta a cualquier petición en '/'

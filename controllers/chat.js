@@ -4,51 +4,35 @@ const { dungeonsDB } = require('../bbdd');
 // Controladores endpoint /chat
 // GET
 const getChat = (req, res) => {
-    return res.status(200).send({ ok: true, message: `getChat works!!` });
+    const { idCampaign } = req.query;
+    let params = [idCampaign];
+    let sql = "SELECT * FROM chat WHERE campaignCode = ?";
 
-    // const { id_usuario, id_libro } = req.query;
-    // let params = [id_usuario];
-    // let sql;
-    // if (!id_libro) {
-    //     sql = "SELECT * FROM libro WHERE id_usuario = ? ORDER BY titulo";
-    // }else {
-    //     params.push(id_libro)
-    //     sql = "SELECT * FROM libro WHERE id_usuario = ? AND id_libro = ?";
-    // };
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta;
-    //         if (result.length == 0){
-    //             respuesta = { ok: false, message: `No se encontraron libros` };
-    //         }else if (id_libro){
-    //             respuesta = { ok: true, message: `Libro con id ${id_libro}`, resultado: result};                
-    //         }else {
-    //             respuesta = { ok: true, message: `Listado libros`, resultado: result};                
-    //         }
-    //         return res.status(200).json(respuesta);
-    //     }else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta = { ok: true, message: `Listado mensajes campaña: ${idCampaign}`, resultado: result };
+            return res.status(200).send(respuesta);
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).send(respuesta);
+        }
+    })
 };
 
 // POST
 const postChat = (req, res) => {
-    return res.status(200).send({ ok: true, message: `postChat works!!` });
-
-    // const { titulo, tipo, autor, precio, foto, id_usuario } = req.body;
-    // let params = [titulo, tipo, autor, precio, foto, id_usuario];
-    // let sql = 'INSERT INTO libro (titulo, tipo, autor, precio, foto, id_usuario) VALUES (?, ?, ?, ?, ?, ?)';
-    // appbooksBBDD.query(sql, params, (error, result) => {
-    //     if (!error) {
-    //         let respuesta = { ok: true, message: `Registrado libro con id ${result.insertId}`, resultado: { id_libro: result.insertId }};
-    //         return res.status(200).json(respuesta);
-    //     } else {
-    //         let respuesta = { ok: false, message: error.sqlMessage };
-    //         return res.status(200).json(respuesta);
-    //     }
-    // })    
+    const { campaignCode, emisor, mensaje, fecha } = req.body;
+    let params = [campaignCode, emisor, mensaje, fecha];
+    let sql = 'INSERT INTO chat (campaignCode, emisor, mensaje, fecha) VALUES (?, ?, ?, ?)';
+    dungeonsDB.query(sql, params, (error, result) => {
+        if (!error) {
+            let respuesta = { ok: true, message: `Registrado mensaje con id ${result.insertId}`, resultado: { idChat: result.insertId }};
+            return res.status(200).send(respuesta);
+        } else {
+            let respuesta = { ok: false, message: error.sqlMessage };
+            return res.status(400).send(respuesta);
+        }
+    })    
 };
 
 // PUT
