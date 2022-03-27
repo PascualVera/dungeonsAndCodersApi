@@ -11,7 +11,7 @@ const getCampaign = (req, res) => {
     let sql;
 
     if (!idCampaign) {
-        sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.numPlayer, campaign.maxPlayer, campaign.public, campaignpre.campaignName AS campaignNamePre, campaignpre.playerMin, campaignpre.playerMax FROM campaign JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.numPlayer < campaign.maxPlayer AND NOT campaign.closed"
+        sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.numPlayer, campaign.maxPlayer, campaign.public, campaignpre.campaignName AS campaignNamePre, campaignpre.playerMin, campaignpre.playerMax, campaign.idCampaignPre FROM campaign JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.numPlayer < campaign.maxPlayer AND NOT campaign.closed"
     } else {
         sql = "SELECT campaign.idCampaign, campaign.campaignName, campaign.idCampaignPre, campaign.date, campaign.numPlayer, campaign.maxPlayer, campaignpre.playerMin, campaign.public,campaign.closed, user.name FROM campaign JOIN user ON campaign.idMaster = user.idUser JOIN campaignpre ON campaign.idCampaignPre = campaignpre.idCampaignPre WHERE campaign.idCampaign = ?"
     };
