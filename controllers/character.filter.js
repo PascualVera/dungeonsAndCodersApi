@@ -3,7 +3,7 @@ const { dungeonsDB } = require("../bbdd")
 
 function filterCharacter(req,res) {
 	let id = req.query.id
-	let sql = `SELECT characterpre.* FROM characterpre
+	let sql = `SELECT characterpre.*, player.hitPoints FROM characterpre
 	JOIN player ON (player.idCharacter = characterpre.idCharacter)
 	JOIN campaign ON (player.idCampaign = campaign.idCampaign)
 	WHERE campaign.idCampaign = '${id}'`
