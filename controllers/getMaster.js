@@ -2,8 +2,9 @@ const { dungeonsDB } = require('../bbdd');
 
 const getMaster = (req,res)=>{
   let id = req.query.id
-  let sql =`SELECT campaign.* FROM campaign
+  let sql =`SELECT user.name as master, campaign.*, campaignpre.campaignName as campaignpreName FROM campaign
   JOIN user On (user.idUser = campaign.idMaster)
+  Join campaignpre ON (campaignpre.idCampaignpre = campaign.idCampaignpre)
   WHERE user.idUser ='${id}'` 
 
   dungeonsDB.query(sql,(err,result)=>{
