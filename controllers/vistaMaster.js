@@ -22,7 +22,7 @@ const getPlayerHitPoints = (req, res) => {
 const getEnemyHitPoints = (req, res) => {
 	let id = req.query.id
 
-	let sql = `SELECT enemypre.name, enemy.idEnemy, enemy.hitPoints FROM enemy
+	let sql = `SELECT enemy.idEnemy, enemypre.idEnemyPre, enemypre.name, enemy.hitPoints FROM enemy
     JOIN enemypre ON (enemypre.idEnemyPre = enemy.idEnemyPre) 
     JOIN campaign ON (campaign.idCampaign = enemy.idCampaign) 
     JOIN enemypre_campaignpre ON (enemypre_campaignpre.idEnemyPre = enemy.idEnemyPre)
