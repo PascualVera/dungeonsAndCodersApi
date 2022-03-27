@@ -3,10 +3,11 @@ const { Router } = require('express');
 const router = Router();
 
 // Importar controladores
-const { getEnemyCampaign } = require('../controllers/vistaMaster');
+const { getPlayerHitPoints, getEnemyHitPoints } = require('../controllers/vistaMaster');
 
 // Crear los endpoints para la ruta /campaign y atenderlos mediante sus controladores
-router.get('/', getEnemyCampaign);
+router.get('/player', getPlayerHitPoints);
+router.get('/enemy', getEnemyHitPoints);
 
 // Exportar router
 module.exports = router;

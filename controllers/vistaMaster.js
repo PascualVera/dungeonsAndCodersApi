@@ -1,33 +1,47 @@
 const { dungeonsDB } = require('../bbdd');
 
-const getEnemyCampaign = (req, res) =>{
+const getPlayerHitPoints = (req, res) => {
+	let id = req.query.id
 
-    const idCampaignPre = req.query.id;
-    let sql;
-    let params;
-    if(idCampaignPre)
-    {
-        sql = `SELECT ec.cantidad, ep.*  FROM enemypre AS ep INNER JOIN enemypre_campaignpre AS ec ON (ep.idEnemyPre = ec.idEnemyPre) WHERE ec.idCampaignPre = ?`;
-        params= [idCampaignPre];
+	let sql = `SELECT  player.idUser, player.idCharacter, characterpre.name, player.hitPoints FROM player
+	JOIN user ON (player.idUser = user.idUser)
+	JOIN campaign ON (player.idCampaign = campaign.idCampaign) 
+    JOIN characterpre ON (player.idCharacter = characterpre.idCharacter)
+	WHERE campaign.idCampaign = '${id}'`
+	dungeonsDB.query(sql, (err, result) => {
+		if (err) {
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
+		} else {
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
+		}
+	})
+}
 
-        dungeonsDB.query(sql, params, (error, result) => {
-            if(!error)
-            {
-                let respuesta = {ok: true, message: 'Enemigos de la campaña '+idCampaignPre , resultado: result};
-                return res.status(200).send(respuesta); 
-            }else{
-                let respuesta = { ok: false, message: error.sqlMessage };
-                return res.status(400).send(respuesta);
-            }
-        })
-    }else{
-        let respuesta = {ok: true, message: 'Pendiente: Datos completos de campaña'};
-        return res.status(200).send(respuesta);
-    }
+const getEnemyHitPoints = (req, res) => {
+	let id = req.query.id
+
+	let sql = `SELECT enemypre.name, enemy.idEnemy, enemy.hitPoints FROM enemy
+    JOIN enemypre ON (enemypre.idEnemyPre = enemy.idEnemyPre) 
+    JOIN campaign ON (campaign.idCampaign = enemy.idCampaign) 
+    JOIN enemypre_campaignpre ON (enemypre_campaignpre.idEnemyPre = enemy.idEnemyPre)
+	WHERE campaign.idCampaign = '${id}'`
+	dungeonsDB.query(sql, (err, result) => {
+		if (err) {
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
+		} else {
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
+		}
+	})
 }
 
 
 // Exportar controladores
-module.exports = {
-    getEnemyCampaign
+
+module.exports={
+    getPlayerHitPoints,
+    getEnemyHitPoints
 }
