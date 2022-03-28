@@ -56,7 +56,8 @@ const getGuiaMaster = (req, res) =>{
 //PUT
 
 const putEnemyLifePoints = (req, res) =>{
-	let params = [ req.body.hitPoints, req.body.idEnemy, req.body.idCampaign]
+	const {hitPoints, idEnemy, idCampaign} = req.body
+	let params = [ hitPoints, idEnemy, idCampaign]
 
 	let sql = 'UPDATE enemy SET hitPoints= ? WHERE idEnemy = ? AND idCampaign = ?';
 	dungeonsDB.query(sql, params, (err, result) => {
@@ -71,7 +72,8 @@ const putEnemyLifePoints = (req, res) =>{
 }
 
 const putPlayerLifePoints = (req, res) =>{
-	let params = [ req.body.hitPoints, req.body.idPlayer, req.body.idCampaign]
+	const {hitPoints, idPlayer, idCampaign} = req.body
+	let params = [ hitPoints, idPlayer, idCampaign]
 
 	let sql = 'UPDATE player SET hitPoints= ? WHERE idPlayer = ? AND idCampaign = ?';
 	dungeonsDB.query(sql, params, (err, result) => {
