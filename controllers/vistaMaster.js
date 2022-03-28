@@ -53,10 +53,44 @@ const getGuiaMaster = (req, res) =>{
 	})
 }
 
+//PUT
+
+const putEnemyLifePoints = (req, res) =>{
+	let params = [ req.body.hitPoints, req.body.idEnemy, req.body.idCampaign]
+
+	let sql = 'UPDATE enemy SET hitPoints= ? WHERE idEnemy = ? AND idCampaign = ?';
+	dungeonsDB.query(sql, params, (err, result) => {
+		if (err) {
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
+		} else {
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
+		}
+	})
+}
+
+const putPlayerLifePoints = (req, res) =>{
+	let params = [ req.body.hitPoints, req.body.idPlayer, req.body.idCampaign]
+
+	let sql = 'UPDATE player SET hitPoints= ? WHERE idPlayer = ? AND idCampaign = ?';
+	dungeonsDB.query(sql, params, (err, result) => {
+		if (err) {
+			let respuesta = {ok:false, result:err.sqlMessage}
+			res.send(respuesta)
+		} else {
+			let respuesta = {ok:true, resultado:result}
+			res.status(200).json(respuesta)
+		}
+	})
+}
+
 // Exportar controladores
 
 module.exports={
     getPlayerHitPoints,
     getEnemyHitPoints,
-	getGuiaMaster
+	getGuiaMaster,
+	putEnemyLifePoints,
+	putPlayerLifePoints
 }
