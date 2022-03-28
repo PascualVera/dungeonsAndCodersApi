@@ -71,9 +71,10 @@ const putEnemyLifePoints = (req, res) =>{
 }
 
 const putPlayerLifePoints = (req, res) =>{
-	let params = [ req.body.hitPoints, req.body.idPlayer, req.body.idCampaign]
-
-	let sql = 'UPDATE player SET hitPoints= ? WHERE idPlayer = ? AND idCampaign = ?';
+	const {hitPoints,idPlayer} =req.body
+	let params = [hitPoints, idPlayer]
+	console.log(params)
+	let sql = 'UPDATE player SET hitPoints= ? WHERE idPlayer = ?';
 	dungeonsDB.query(sql, params, (err, result) => {
 		if (err) {
 			let respuesta = {ok:false, result:err.sqlMessage}
