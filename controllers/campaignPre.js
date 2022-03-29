@@ -10,7 +10,7 @@ const getCampaignPre = (req, res) => {
     if (!idCampaignPre) {
         sql = "SELECT idCampaignPre, campaignName, synopsis, playerMin, playerMax FROM campaignpre";
     }else {
-        sql = "SELECT synopsis FROM campaignPre WHERE idCampaignpre = ?";
+        sql = "SELECT campaignName, synopsis FROM campaignpre WHERE idCampaignPre = ?";
     };
     dungeonsDB.query(sql, params, (error, result) => {
         if (!error) {
@@ -18,7 +18,7 @@ const getCampaignPre = (req, res) => {
             if (result.length == 0){
                 respuesta = { ok: false, message: `Campaña no encontrada` };
             }else if (idCampaignPre){
-                respuesta = { ok: true, message: `El resumend de la campaña con id ${idCampaignPre}`, resultado: result};                
+                respuesta = { ok: true, message: `El resumen de la campaña con id ${idCampaignPre}`, resultado: result};                
             }else {
                 respuesta = { ok: true, message: `Listado de campañas`, resultado: result};                
             }
