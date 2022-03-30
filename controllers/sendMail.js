@@ -36,7 +36,6 @@ const nodemailer = require('nodemailer')
      if(err){
        res.send(err)
      }else{
-       console.log(temporaryPin)
        let respuesta = { ok: true, tempPass: temporaryPin, timeOutDate: date};
             return res.status(200).json(respuesta);
      }
