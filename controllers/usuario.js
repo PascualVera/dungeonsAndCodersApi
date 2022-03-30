@@ -49,7 +49,7 @@ const postUsuario = (req, res) => {
             return res.status(200).json(respuesta);
         } else {
             let respuesta = { ok: false, message: error.sqlMessage };
-            return res.status(400).send(respuesta);
+            return res.status(200).send(respuesta);
         }
     })    
 };
